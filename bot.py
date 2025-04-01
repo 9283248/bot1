@@ -25,7 +25,7 @@ class LinkForm(StatesGroup):
 def build_link(data):
     message = f"{data.get('text', 'Здравствуйте, я по поводу')} {data.get('link', '')}"
     encoded = urllib.parse.quote(message)
-    return f"https://t.me/{data.get('account', 'SvetlanaPak_kuturi')}?text={encoded}"
+    return f"https://t.me/{data.get('account', 'svetlanapak_kuturi')}?text={encoded}"
 
 
 def get_keyboard(link):
@@ -47,7 +47,7 @@ def get_keyboard(link):
 @router.message(CommandStart())
 async def cmd_start(message: types.Message, state: FSMContext):
     await state.clear()
-    await state.update_data(text="Здравствуйте, я по поводу", account="SvetlanaPak_kuturi", link="")
+    await state.update_data(text="Здравствуйте, я по поводу", account="svetlanapak_kuturi", link="")
     await message.answer("Привет! Отправьте ссылку, с которой хотите создать сообщение.")
 
 
