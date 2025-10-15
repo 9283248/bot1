@@ -1,170 +1,72 @@
 import Foundation
 import SwiftUI
 
-// MARK: - Presentation Model
-struct Presentation: Identifiable, Codable {
+class Presentation: ObservableObject, Identifiable {
     let id = UUID()
-    var title: String
-    var slides: [Slide]
-    var createdAt: Date
-    var modifiedAt: Date
-    var theme: PresentationTheme
+    @Published var title: String
+    @Published var slides: [Slide]
+    @Published var createdAt: Date
+    @Published var modifiedAt: Date
+    @Published var thumbnail: UIImage?
     
-    init(title: String, theme: PresentationTheme = .modern) {
+    init(title: String) {
         self.title = title
-        self.slides = [Slide()]
+        self.slides = [Slide(title: "Новый слайд")]
         self.createdAt = Date()
         self.modifiedAt = Date()
-        self.theme = theme
     }
-}
-
-// MARK: - Slide Model
-struct Slide: Identifiable, Codable {
-    let id = UUID()
-    var elements: [SlideElement]
-    var backgroundColor: Color
-    var backgroundImage: String?
     
-    init() {
-        self.elements = []
-        self.backgroundColor = .white
-        self.backgroundImage = nil
+    func addSlide() {
+        let newSlide = Slide(title: "Слайд \(slides.count + 1)")
+        slides.append(newSlide)
+        modifiedAt = Date()
     }
-}
-
-// MARK: - Slide Element Protocol
-protocol SlideElement: Identifiable, Codable {
-    var id: UUID { get }
-    var position: CGPoint { get set }
-    var size: CGSize { get set }
-    var rotation: Double { get set }
-    var zIndex: Int { get set }
-}
-
-// MARK: - Text Element
-struct TextElement: SlideElement {
-    let id = UUID()
-    var position: CGPoint
-    var size: CGSize
-    var rotation: Double = 0
-    var zIndex: Int = 0
     
-    var text: String
-    var fontSize: CGFloat
-    var fontName: String
-    var textColor: Color
-    var alignment: TextAlignment
-    var isBold: Bool
-    var isItalic: Bool
-    
-    init(text: String = "Новый текст", position: CGPoint = .zero, size: CGSize = CGSize(width: 200, height: 50)) {
-        self.text = text
-        self.position = position
-        self.size = size
-        self.fontSize = 24
-        self.fontName = "Helvetica"
-        self.textColor = .black
-        self.alignment = .center
-        self.isBold = false
-        self.isItalic = false
+    func removeSlide(at index: Int) {
+        guard index < slides.count else { return }
+        slides.remove(at: index)
+        modifiedAt = Date()
     }
-}
-
-// MARK: - Image Element
-struct ImageElement: SlideElement {
-    let id = UUID()
-    var position: CGPoint
-    var size: CGSize
-    var rotation: Double = 0
-    var zIndex: Int = 0
     
-    var imageName: String
-    var aspectRatio: ContentMode
-    
-    init(imageName: String, position: CGPoint = .zero, size: CGSize = CGSize(width: 200, height: 150)) {
-        self.imageName = imageName
-        self.position = position
-        self.size = size
-        self.aspectRatio = .fit
+    func moveSlide(from source: IndexSet, to destination: Int) {
+        slides.move(fromOffsets: source, toOffset: destination)
+        modifiedAt = Date()
     }
-}
-
-// MARK: - Shape Element
-struct ShapeElement: SlideElement {
-    let id = UUID()
-    var position: CGPoint
-    var size: CGSize
-    var rotation: Double = 0
-    var zIndex: Int = 0
     
-    var shapeType: ShapeType
-    var fillColor: Color
-    var strokeColor: Color
-    var strokeWidth: CGFloat
-    
-    init(shapeType: ShapeType, position: CGPoint = .zero, size: CGSize = CGSize(width: 100, height: 100)) {
-        self.shapeType = shapeType
-        self.position = position
-        self.size = size
-        self.fillColor = .blue
-        self.strokeColor = .black
-        self.strokeWidth = 2
-    }
-}
-
-// MARK: - Shape Type Enum
-enum ShapeType: String, CaseIterable, Codable {
-    case rectangle = "rectangle"
-    case circle = "circle"
-    case triangle = "triangle"
-    case star = "star"
-    case arrow = "arrow"
-}
-
-// MARK: - Presentation Theme
-enum PresentationTheme: String, CaseIterable, Codable {
-    case modern = "modern"
-    case classic = "classic"
-    case colorful = "colorful"
-    case minimal = "minimal"
-    
-    var primaryColor: Color {
-        switch self {
-        case .modern:
-            return .blue
-        case .classic:
-            return .gray
-        case .colorful:
-            return .purple
-        case .minimal:
-            return .black
+    func generateThumbnail() {
+        // Генерируем миниатюру из первого слайда
+        if let firstSlide = slides.first {
+            // Здесь будет логика генерации миниатюры
+            // Пока оставляем пустым
         }
     }
-    
-    var secondaryColor: Color {
-        switch self {
-        case .modern:
-            return .cyan
-        case .classic:
-            return .white
-        case .colorful:
-            return .orange
-        case .minimal:
-            return .gray
-        }
-    }
-    
-    var backgroundColor: Color {
-        switch self {
-        case .modern:
-            return Color(red: 0.95, green: 0.97, blue: 1.0)
-        case .classic:
-            return .white
-        case .colorful:
-            return Color(red: 0.98, green: 0.95, blue: 1.0)
-        case .minimal:
-            return .white
-        }
-    }
+}
+
+// MARK: - Sample Data
+extension Presentation {
+    static let samplePresentations: [Presentation] = [
+        {
+            let presentation = Presentation(title: "Моя первая презентация")
+            presentation.slides = [
+                Slide(title: "Заголовок", elements: [
+                    TextElement(text: "Добро пожаловать!", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
+                ]),
+                Slide(title: "Содержание", elements: [
+                    TextElement(text: "Основные темы:", position: CGPoint(x: 50, y: 80), size: CGSize(width: 300, height: 40)),
+                    TextElement(text: "• Тема 1", position: CGPoint(x: 80, y: 140), size: CGSize(width: 250, height: 30)),
+                    TextElement(text: "• Тема 2", position: CGPoint(x: 80, y: 180), size: CGSize(width: 250, height: 30))
+                ])
+            ]
+            return presentation
+        }(),
+        {
+            let presentation = Presentation(title: "Бизнес-план")
+            presentation.slides = [
+                Slide(title: "Обзор", elements: [
+                    TextElement(text: "Бизнес-план 2024", position: CGPoint(x: 100, y: 100), size: CGSize(width: 200, height: 50))
+                ])
+            ]
+            return presentation
+        }()
+    ]
 }

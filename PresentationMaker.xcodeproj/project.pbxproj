@@ -11,6 +11,12 @@
 		A1234567890ABCDEF1234569 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234568 /* ContentView.swift */; };
 		A1234567890ABCDEF123456B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123456A /* Assets.xcassets */; };
 		A1234567890ABCDEF123456E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123456D /* Preview Assets.xcassets */; };
+		A1234567890ABCDEF1234574 /* Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234575 /* Presentation.swift */; };
+		A1234567890ABCDEF1234576 /* AIMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234577 /* AIMessage.swift */; };
+		A1234567890ABCDEF1234578 /* PresentationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234579 /* PresentationViewModel.swift */; };
+		A1234567890ABCDEF123457A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123457B /* ChatView.swift */; };
+		A1234567890ABCDEF123457C /* PresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123457D /* PresentationView.swift */; };
+		A1234567890ABCDEF123457E /* PresentationModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF123457F /* PresentationModeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +25,12 @@
 		A1234567890ABCDEF1234568 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890ABCDEF123456D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234575 /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234577 /* AIMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIMessage.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234579 /* PresentationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationViewModel.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF123457B /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF123457D /* PresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationView.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF123457F /* PresentationModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationModeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +49,9 @@
 			children = (
 				A1234567890ABCDEF1234566 /* PresentationMakerApp.swift */,
 				A1234567890ABCDEF1234568 /* ContentView.swift */,
+				A1234567890ABCDEF1234580 /* Models */,
+				A1234567890ABCDEF1234581 /* ViewModels */,
+				A1234567890ABCDEF1234582 /* Views */,
 				A1234567890ABCDEF123456A /* Assets.xcassets */,
 				A1234567890ABCDEF123456C /* Preview Content */,
 			);
@@ -49,6 +64,33 @@
 				A1234567890ABCDEF123456D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF1234580 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF1234575 /* Presentation.swift */,
+				A1234567890ABCDEF1234577 /* AIMessage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF1234581 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF1234579 /* PresentationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1234567890ABCDEF1234582 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890ABCDEF123457B /* ChatView.swift */,
+				A1234567890ABCDEF123457D /* PresentationView.swift */,
+				A1234567890ABCDEF123457F /* PresentationModeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		A1234567890ABCDEF1234559 = {
@@ -139,6 +181,12 @@
 			files = (
 				A1234567890ABCDEF1234569 /* ContentView.swift in Sources */,
 				A1234567890ABCDEF1234567 /* PresentationMakerApp.swift in Sources */,
+				A1234567890ABCDEF1234574 /* Presentation.swift in Sources */,
+				A1234567890ABCDEF1234576 /* AIMessage.swift in Sources */,
+				A1234567890ABCDEF1234578 /* PresentationViewModel.swift in Sources */,
+				A1234567890ABCDEF123457A /* ChatView.swift in Sources */,
+				A1234567890ABCDEF123457C /* PresentationView.swift in Sources */,
+				A1234567890ABCDEF123457E /* PresentationModeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
