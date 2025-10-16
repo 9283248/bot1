@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Presentation App - Интерактивный мокап</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- iPhone мокап -->
+        <div class="iphone-mockup">
+            <div class="iphone-screen">
+                <!-- Статус бар -->
+                <div class="status-bar">
+                    <div class="time">9:41</div>
+                    <div class="status-icons">
+                        <span class="signal">📶</span>
+                        <span class="wifi">📶</span>
+                        <span class="battery">🔋</span>
+                    </div>
+                </div>
+
+                <!-- Основной контент -->
+                <div class="app-content" id="appContent">
+                    <!-- Главный экран с табами -->
+                    <div class="main-screen" id="mainScreen">
+                        <!-- Навигация табов -->
+                        <div class="tab-bar">
+                            <div class="tab-item active" onclick="switchTab(0)">
+                                <div class="tab-icon">💬</div>
+                                <div class="tab-label">Чат</div>
+                            </div>
+                            <div class="tab-item" onclick="switchTab(1)">
+                                <div class="tab-icon">📄</div>
+                                <div class="tab-label">Презентации</div>
+                            </div>
+                        </div>
+
+                        <!-- Контент табов -->
+                        <div class="tab-content">
+                            <!-- Чат таб -->
+                            <div class="tab-panel active" id="chatTab">
+                                <div class="chat-header">
+                                    <h1>AI Презентации</h1>
+                                </div>
+                                
+                                <div class="chat-messages" id="chatMessages">
+                                    <div class="message ai-message">
+                                        <div class="message-bubble">
+                                            <p>Привет! Я помогу вам создать презентацию. Опишите, какую презентацию вы хотите создать?</p>
+                                        </div>
+                                        <div class="message-time">9:42</div>
+                                    </div>
+                                </div>
+
+                                <div class="chat-input-container">
+                                    <div class="chat-input">
+                                        <input type="text" id="messageInput" placeholder="Опишите презентацию, которую хотите создать..." onkeypress="handleKeyPress(event)">
+                                        <button class="send-button" onclick="sendMessage()">📤</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Презентации таб -->
+                            <div class="tab-panel" id="presentationsTab">
+                                <div class="presentations-header">
+                                    <h1>Мои презентации</h1>
+                                </div>
+                                
+                                <div class="presentations-list" id="presentationsList">
+                                    <div class="presentation-item" onclick="openPresentation('ai-trends')">
+                                        <div class="presentation-preview">
+                                            <div class="presentation-title">Тренды в ИИ 2024</div>
+                                            <div class="presentation-meta">8 слайдов • 12 мин • Синяя тема</div>
+                                        </div>
+                                        <div class="presentation-arrow">›</div>
+                                    </div>
+                                    
+                                    <div class="presentation-item" onclick="openPresentation('mobile-dev')">
+                                        <div class="presentation-preview">
+                                            <div class="presentation-title">Мобильная разработка</div>
+                                            <div class="presentation-meta">6 слайдов • 8 мин • Зеленая тема</div>
+                                        </div>
+                                        <div class="presentation-arrow">›</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Экран презентации -->
+                    <div class="presentation-screen" id="presentationScreen" style="display: none;">
+                        <div class="presentation-header">
+                            <button class="back-button" onclick="closePresentation()">‹ Назад</button>
+                            <h2 id="presentationTitle">Тренды в ИИ 2024</h2>
+                            <button class="present-button" onclick="togglePresentationMode()">Презентация</button>
+                        </div>
+
+                        <div class="presentation-content">
+                            <div class="slide-container">
+                                <div class="slide" id="currentSlide">
+                                    <div class="slide-number">Слайд 1 из 8</div>
+                                    <div class="slide-content">
+                                        <h1 class="slide-title">Тренды в ИИ 2024</h1>
+                                        <p class="slide-text">Обзор ключевых направлений развития искусственного интеллекта</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slide-navigation">
+                                <button class="nav-button" onclick="previousSlide()" id="prevButton">‹</button>
+                                <div class="slide-indicator">
+                                    <span id="currentSlideNum">1</span> / <span id="totalSlides">8</span>
+                                </div>
+                                <button class="nav-button" onclick="nextSlide()" id="nextButton">›</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информационная панель -->
+        <div class="info-panel">
+            <h2>🎯 AI Presentation App</h2>
+            <p>Интерактивный мокап iOS приложения для генерации презентаций с помощью ИИ</p>
+            
+            <div class="features">
+                <h3>✨ Возможности:</h3>
+                <ul>
+                    <li>💬 Чат с AI для создания презентаций</li>
+                    <li>📱 Современный iOS интерфейс</li>
+                    <li>🎨 Автоматическая генерация слайдов</li>
+                    <li>📚 Библиотека презентаций</li>
+                    <li>🖼️ Режим презентации</li>
+                </ul>
+            </div>
+
+            <div class="instructions">
+                <h3>🎮 Как использовать:</h3>
+                <ol>
+                    <li>Переключайтесь между табами "Чат" и "Презентации"</li>
+                    <li>В чате введите описание презентации</li>
+                    <li>Нажмите "📤" для отправки</li>
+                    <li>AI создаст презентацию автоматически</li>
+                    <li>Откройте презентацию для просмотра</li>
+                </ol>
+            </div>
+
+            <div class="demo-actions">
+                <button class="demo-button" onclick="demoChat()">💬 Демо чат</button>
+                <button class="demo-button" onclick="demoPresentation()">📄 Демо презентация</button>
+                <button class="demo-button" onclick="resetDemo()">🔄 Сброс</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
