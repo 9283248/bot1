@@ -30,9 +30,9 @@ class TextElement: SlideElement {
     
     init(
         text: String,
+        fontSize: CGFloat = 16,
         position: CGPoint,
         size: CGSize,
-        fontSize: CGFloat = 16,
         fontWeight: Font.Weight = .regular,
         textColor: Color = .black,
         textAlignment: TextAlignment = .leading,

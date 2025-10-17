@@ -8,6 +8,11 @@ class Slide: ObservableObject, Identifiable {
     @Published var backgroundColor: Color
     @Published var backgroundImage: UIImage?
     
+    // Формат 16:9 для слайдов
+    static let aspectRatio: CGFloat = 16.0 / 9.0
+    static let defaultWidth: CGFloat = 400
+    static let defaultHeight: CGFloat = defaultWidth / aspectRatio
+    
     init(title: String, elements: [SlideElement] = [], backgroundColor: Color = .white) {
         self.title = title
         self.elements = elements
