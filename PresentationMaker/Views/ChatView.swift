@@ -6,76 +6,135 @@ struct ChatView: View {
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Заголовок чата
-            HStack {
-                Text("AI Презентация")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                Button(action: {
-                    viewModel.generateNewPresentation(from: "Создай новую презентацию")
-                }) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.blue)
-                }
-            }
-            .padding()
-            .background(Color(.systemBackground))
-            .shadow(radius: 1)
+        ZStack {
+            // Фоновый градиент
+            LinearGradient(
+                colors: [
+                    Color(red: 0.1, green: 0.1, blue: 0.2),
+                    Color(red: 0.2, green: 0.1, blue: 0.3),
+                    Color(red: 0.1, green: 0.2, blue: 0.4)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
             
-            // Список сообщений
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(viewModel.messages) { message in
-                            MessageBubble(message: message)
-                                .id(message.id)
-                        }
+            VStack(spacing: 0) {
+                // Заголовок чата с стеклянным эффектом
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("AI Презентация")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
                         
-                        if viewModel.isLoading {
-                            HStack {
-                                Spacer()
-                                LoadingIndicator()
-                                Spacer()
-                            }
-                            .padding()
+                        Text("Создавайте презентации через чат")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        viewModel.generateNewPresentation(from: "Создай новую презентацию")
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                                .frame(width: 44, height: 44)
+                            
+                            Image(systemName: "plus")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
                         }
                     }
-                    .padding()
                 }
-                .onChange(of: viewModel.messages.count) { _ in
-                    if let lastMessage = viewModel.messages.last {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                        }
-                    }
-                }
-            }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 16)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 0))
+                .overlay(
+                    Rectangle()
+                        .fill(.white.opacity(0.1))
+                        .frame(height: 1),
+                    alignment: .bottom
+                )
             
-            // Поле ввода
-            HStack {
-                TextField("Напишите что создать или изменить...", text: $messageText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .focused($isTextFieldFocused)
-                    .onSubmit {
-                        sendMessage()
+                // Список сообщений
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(viewModel.messages) { message in
+                                MessageBubble(message: message)
+                                    .id(message.id)
+                            }
+                            
+                            if viewModel.isLoading {
+                                HStack {
+                                    Spacer()
+                                    LoadingIndicator()
+                                    Spacer()
+                                }
+                                .padding(.vertical, 20)
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
                     }
-                
-                Button(action: sendMessage) {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundColor(.white)
-                        .frame(width: 36, height: 36)
-                        .background(messageText.isEmpty ? Color.gray : Color.blue)
-                        .clipShape(Circle())
+                    .onChange(of: viewModel.messages.count) { _ in
+                        if let lastMessage = viewModel.messages.last {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                            }
+                        }
+                    }
                 }
-                .disabled(messageText.isEmpty || viewModel.isLoading)
-            }
-            .padding()
-            .background(Color(.systemBackground))
+            
+                // Поле ввода с стеклянным эффектом
+                VStack(spacing: 0) {
+                    HStack(spacing: 12) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 24)
+                                .fill(.ultraThinMaterial)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .stroke(.white.opacity(0.2), lineWidth: 1)
+                                )
+                            
+                            TextField("Напишите что создать или изменить...", text: $messageText)
+                                .focused($isTextFieldFocused)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .foregroundColor(.white)
+                                .background(Color.clear)
+                        }
+                        .frame(height: 48)
+                        
+                        Button(action: sendMessage) {
+                            ZStack {
+                                Circle()
+                                    .fill(messageText.isEmpty ? .gray.opacity(0.3) : .blue)
+                                    .frame(width: 48, height: 48)
+                                
+                                Image(systemName: "paperplane.fill")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .disabled(messageText.isEmpty || viewModel.isLoading)
+                        .scaleEffect(messageText.isEmpty ? 0.9 : 1.0)
+                        .animation(.spring(response: 0.3), value: messageText.isEmpty)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                }
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 0))
+                .overlay(
+                    Rectangle()
+                        .fill(.white.opacity(0.1))
+                        .frame(height: 1),
+                    alignment: .top
+                )
         }
         .onAppear {
             isTextFieldFocused = true
@@ -94,42 +153,68 @@ struct MessageBubble: View {
     let message: AIMessage
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top, spacing: 12) {
             if message.isUser {
                 Spacer()
                 
-                VStack(alignment: .trailing, spacing: 4) {
+                VStack(alignment: .trailing, spacing: 8) {
                     Text(message.content)
-                        .padding()
-                        .background(Color.blue)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.blue)
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.white.opacity(0.1))
+                                    .blendMode(.overlay)
+                            }
+                        )
                         .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .font(.system(size: 16, weight: .medium))
                     
                     Text(message.timestamp, style: .time)
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.white.opacity(0.6))
                 }
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .trailing)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .trailing)
             } else {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(alignment: .top) {
-                        Image(systemName: "brain.head.profile")
-                            .foregroundColor(.purple)
-                            .font(.title3)
-                            .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(alignment: .top, spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                                .frame(width: 32, height: 32)
+                            
+                            Image(systemName: "brain.head.profile")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.purple)
+                        }
                         
                         Text(message.content)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.ultraThinMaterial)
+                                    
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.white.opacity(0.1))
+                                        .blendMode(.overlay)
+                                }
+                            )
+                            .foregroundColor(.white)
+                            .font(.system(size: 16, weight: .medium))
                     }
                     
                     Text(message.timestamp, style: .time)
                         .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .padding(.leading, 32)
+                        .foregroundColor(.white.opacity(0.6))
+                        .padding(.leading, 44)
                 }
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .leading)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .leading)
                 
                 Spacer()
             }
@@ -141,10 +226,10 @@ struct LoadingIndicator: View {
     @State private var isAnimating = false
     
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 6) {
             ForEach(0..<3) { index in
                 Circle()
-                    .fill(Color.gray)
+                    .fill(.white.opacity(0.8))
                     .frame(width: 8, height: 8)
                     .scaleEffect(isAnimating ? 1.0 : 0.5)
                     .animation(
@@ -155,6 +240,18 @@ struct LoadingIndicator: View {
                     )
             }
         }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.white.opacity(0.1))
+                    .blendMode(.overlay)
+            }
+        )
         .onAppear {
             isAnimating = true
         }
