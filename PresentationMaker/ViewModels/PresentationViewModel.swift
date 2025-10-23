@@ -14,7 +14,7 @@ class PresentationViewModel: ObservableObject {
     private let aiService: AIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(aiService: AIServiceProtocol = MockAIService()) {
+    init(aiService: AIServiceProtocol = OpenAIService()) {
         self.aiService = aiService
         setupInitialPresentation()
     }

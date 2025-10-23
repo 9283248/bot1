@@ -1,6 +1,24 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Presentation Theme
+enum PresentationTheme: String, CaseIterable, Codable {
+    case modern = "modern"
+    case classic = "classic"
+    case creative = "creative"
+    
+    var displayName: String {
+        switch self {
+        case .modern:
+            return "Современный"
+        case .classic:
+            return "Классический"
+        case .creative:
+            return "Творческий"
+        }
+    }
+}
+
 class Presentation: ObservableObject, Identifiable {
     let id = UUID()
     @Published var title: String
@@ -8,6 +26,7 @@ class Presentation: ObservableObject, Identifiable {
     @Published var createdAt: Date
     @Published var modifiedAt: Date
     @Published var thumbnail: UIImage?
+    @Published var theme: PresentationTheme = .modern
     
     init(title: String) {
         self.title = title
